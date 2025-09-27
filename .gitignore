@@ -205,3 +205,24 @@ cython_debug/
 marimo/_static/
 marimo/_lsp/
 __marimo__/
+
+
+# Terraform state and variables
+*.tfstate
+*.tfstate.backup
+*.tfvars
+
+# Terraform provider binaries
+.terraform/
+
+# Airflow local environment and secrets
+tmdb-airflow-project/.env
+tmdb-airflow-project/logs/
+tmdb-airflow-project/airflow.db
+
+# Python cache
+__pycache__/
+*.pyc
+
+# OS-specific files
+.DS_Store
