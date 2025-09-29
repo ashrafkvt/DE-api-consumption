@@ -1,25 +1,53 @@
-# This file allows you to configure Airflow Connections, Pools, and Variables in a single place for local development only.
-# NOTE: json dicts can be added to the conn_extra field as yaml key value pairs. See the example below.
+# airflow_settings.yaml
 
-# For more information, refer to our docs: https://www.astronomer.io/docs/astro/cli/develop-project#configure-airflow_settingsyaml-local-development-only
-# For questions, reach out to: https://support.astronomer.io
-# For issues create an issue ticket here: https://github.com/astronomer/astro-cli/issues
-
+# This section configures your Airflow environment settings.
 airflow:
-  connections:
-    - conn_id:
-      conn_type:
-      conn_host:
-      conn_schema:
-      conn_login:
-      conn_password:
-      conn_port:
-      conn_extra:
-        example_extra_field: example-value
-  pools:
-    - pool_name:
-      pool_slot:
-      pool_description:
-  variables:
-    - variable_name:
-      variable_value:
+  # It's good practice to explicitly set the dags folder, even if it's the default.
+  dags_folder: dags
+
+  # Disable loading the example DAGs to keep your UI clean.
+  load_examples: false
+
+  # You can set default configurations that would normally go in airflow.cfg
+  core:
+    # The number of times a task should retry before failing.
+    default_task_retries: 1
+    # Set the default timezone for your DAGs
+    default_timezone: utc
+
+  # Set a default parallelism for your local environment
+  scheduler:
+    max_threads: 2
+
+# This section defines the connections your DAGs will use.
+# For local development, the actual secret values (login, password, key)
+# will be pulled from your .env file.
+connections:
+  # 1. Connection for the JSONPlaceholder API
+  - conn_id: jsonplaceholder_api
+    conn_type: http
+    host: https://jsonplaceholder.typicode.com
+
+  # 2. Connection for AWS S3
+  # The login/password will be populated by environment variables
+  # defined in your .env file (e.g., AIRFLOW_CONN_AWS_S3_LOGIN=...)
+  - conn_id: aws_s3
+    conn_type: aws
+    login: "${AIRFLOW_CONN_AWS_S3_LOGIN}"
+    password: "${AIRFLOW_CONN_AWS_S3_PASSWORD}"
+
+  # 3. Connection for Snowflake
+  # This defines all the non-secret parts of the connection.
+  # The user and password will be populated from your .env file.
+  - conn_id: snowflake_default
+    conn_type: snowflake
+    login: "${AIRFLOW_CONN_SNOWFLAKE_DEFAULT_LOGIN}"
+    password: "${AIRFLOW_CONN_SNOWFLAKE_DEFAULT_PASSWORD}"
+    extra:
+      # Ensure these values match your Snowflake setup from Terraform
+      account: "<your_snowflake_account>" # e.g., abc12345.us-east-1
+      warehouse: "<your_snowflake_warehouse>"
+      database: "<your_snowflake_database>"
+      schema: "<your_snowflake_schema>"
+      role: "<your_snowflake_role>"
+      region: "<your_aws_region>" # e.g., us-east-1

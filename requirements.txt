@@ -4,3 +4,4 @@ apache-airflow-providers-snowflake
 astronomer-cosmos
 requests
 pandas
+apache-airflow-providers-http

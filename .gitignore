@@ -215,14 +215,14 @@ __marimo__/
 # Terraform provider binaries
 .terraform/
 
-# Airflow local environment and secrets
-tmdb-airflow-project/.env
-tmdb-airflow-project/logs/
-tmdb-airflow-project/airflow.db
-
 # Python cache
 __pycache__/
 *.pyc
 
 # OS-specific files
 .DS_Store
+
+# Airflow specific files
+logs/
+airflow.db
+unittests.db
