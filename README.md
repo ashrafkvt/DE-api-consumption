@@ -39,6 +39,12 @@ Deploy Your Project to Astronomer
 
 If you have an Astronomer account, pushing code to a Deployment on Astronomer is simple. For deploying instructions, refer to Astronomer documentation: https://www.astronomer.io/docs/astro/deploy-code/
 
+Using Jules and Gemini CLI
+=========================
+
+This project can be worked on with the help of Jules and Gemini CLI.
+
+
 Contact
 =======
 
